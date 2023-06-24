@@ -17,9 +17,20 @@ Simple, privacy friendly Web3 log-in based on WebAuthn.
 yarn install
 ```
 
-### Run dev server
+### Set up Supabase
 ```
 supabase start
+```
+
+Create .env.local file and add the following variables with values printed by `supabase start`:
+```
+NEXT_PUBLIC_SUPABASE_URL=<API URL>
+SUPABASE_JWT_SECRET=<JWT secret>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
+```
+
+### Run dev server
+```
 yarn dev
 ```
 
