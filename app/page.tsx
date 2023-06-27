@@ -5,3 +5,5 @@ export default function Home() {
     <SignupForm />
   )
 }
+
+export const runtime = 'edge'
