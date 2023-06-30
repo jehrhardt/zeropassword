@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'zeropasswd',
+  title: 'zeropassword',
   description: 'Simple, privacy friendly Web3 log-in based on WebAuthn',
 }
 
