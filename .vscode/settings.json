@@ -1,6 +1,5 @@
 {
-    "deno.config": "./supabase/functions/deno.json",
-    "deno.importMap": "",
+    "deno.importMap": "./supabase/functions/import_map.json",
     "deno.enablePaths": [
         "./supabase/functions"
     ],
