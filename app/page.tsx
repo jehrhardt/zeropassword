@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 export default function Home() {
   return (
     <h1 className="text-3xl font-bold underline">
@@ -7,3 +5,5 @@ export default function Home() {
     </h1>
   )
 }
+
+export const runtime = 'edge'
