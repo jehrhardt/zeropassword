@@ -1,5 +1,7 @@
 {
   "imports": {
-    "oak": "https://deno.land/x/oak@v12.5.0/mod.ts"
+    "fido2-lib": "https://deno.land/x/fido2@3.4.1/dist/main.js",
+    "fido2-lib-types": "https://deno.land/x/fido2@3.4.1/types/main.d.ts",
+    "std/": "https://deno.land/std@0.192.0/"
   }
 }
