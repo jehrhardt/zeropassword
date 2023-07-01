@@ -1,6 +1,10 @@
 'use client'
 
-import { signup } from '../../lib/zeropasswd'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function SignupForm() {
   return (
@@ -50,4 +54,34 @@ export default function SignupForm() {
       </div>
     </>
   )
+}
+
+async function signup(username: string) {
+  const { data } = await supabase.functions.invoke('create-signup-request', { body: { username } });
+  const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
+    ...data,
+    challenge: base64Decode(data.challenge),
+    user: {
+      ...data.user,
+      id: decodeUUID(data.user.id),
+    },
+  }
+  const credential = await navigator.credentials.create({
+    publicKey: publicKeyCredentialCreationOptions,
+  });
+
+  console.log(credential);
+}
+
+function base64Decode(str: string) {
+  return Uint8Array.from(atob(str), (c) => c.charCodeAt(0));
+}
+
+function decodeUUID(str: string) {
+  const hex = str.replace(/-/g, '');
+  const result = [];
+  for (let i = 0; i < hex.length; i += 2) {
+    result.push(parseInt(hex.substring(i, 2), 16));
+  }
+  return Uint8Array.from(result);
 }
