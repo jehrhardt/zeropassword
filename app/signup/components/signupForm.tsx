@@ -1,6 +1,6 @@
 'use client'
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -69,8 +69,21 @@ async function signup(username: string) {
   const credential = await navigator.credentials.create({
     publicKey: publicKeyCredentialCreationOptions,
   });
+  const { id, response } = credential as PublicKeyCredential;
+  const { attestationObject, clientDataJSON } = response as AuthenticatorAttestationResponse;
+  const attestation = {
+    id,
+    attestationObject: base64UrlEncode(attestationObject),
+    clientDataJSON: base64UrlEncode(clientDataJSON)
+  }
 
-  console.log(credential);
+  const attestationResponse = await supabase.functions.invoke('submit-attestation', { body: attestation });
+  console.log(attestationResponse.data);
+}
+
+function base64UrlEncode(data: ArrayBuffer) {
+  return btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(data))))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 }
 
 function base64Decode(str: string) {

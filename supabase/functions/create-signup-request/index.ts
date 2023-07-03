@@ -2,15 +2,10 @@
 import { Fido2Lib } from "fido2-lib";
 import { serve } from "std/http/server.ts";
 import { encode as base64Encode } from "std/encoding/base64.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
 type SignupRequest = {
   username: string;
-};
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
 };
 
 const fido2 = new Fido2Lib({
@@ -42,10 +37,13 @@ serve(async (request) => {
     challenge,
     user,
   };
-  return new Response(JSON.stringify(signupOptions), {
-    headers: {
-      ...corsHeaders,
-      "Content-Type": "application/json",
+  return new Response(
+    JSON.stringify(signupOptions),
+    {
+      headers: {
+        ...corsHeaders,
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
 });
