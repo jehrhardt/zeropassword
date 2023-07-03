@@ -1,10 +1,16 @@
 // @deno-types="fido2-lib-types"
 import { Fido2Lib } from "fido2-lib";
-import { serve } from 'std/http/server.ts';
+import { serve } from "std/http/server.ts";
 import { encode as base64Encode } from "std/encoding/base64.ts";
 
 type SignupRequest = {
   username: string;
+};
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 const fido2 = new Fido2Lib({
@@ -20,6 +26,9 @@ const fido2 = new Fido2Lib({
 });
 
 serve(async (request) => {
+  if (request.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
   const signupRequest: SignupRequest = await request.json();
   const user = {
     id: crypto.randomUUID(),
@@ -33,8 +42,10 @@ serve(async (request) => {
     challenge,
     user,
   };
-
   return new Response(JSON.stringify(signupOptions), {
-    headers: { 'Content-Type': 'application/json' },
-  })
-})
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "application/json",
+    },
+  });
+});
