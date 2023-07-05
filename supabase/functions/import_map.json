@@ -2,6 +2,7 @@
   "imports": {
     "fido2-lib": "https://deno.land/x/fido2@3.4.1/dist/main.js",
     "fido2-lib-types": "https://deno.land/x/fido2@3.4.1/types/main.d.ts",
-    "std/": "https://deno.land/std@0.192.0/"
+    "std/": "https://deno.land/std@0.192.0/",
+    "supabase": "https://esm.sh/@supabase/supabase-js@2.26.0"
   }
 }
