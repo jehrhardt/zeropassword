@@ -22,8 +22,9 @@ serve(async (request) => {
     return new Response("ok", { headers: corsHeaders });
   }
   const signupRequest: SignupRequest = await request.json();
+  const newUser = await createUser();
   const user = {
-    ...createUser(),
+    ...newUser,
     name: signupRequest.username,
     displayName: signupRequest.username,
   };
